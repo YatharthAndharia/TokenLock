@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import LockToken1 from "./LockToken1";
 
 function Connect(props) {
     const [data, setData] = useState({
         balance: null,
     });
-
     const connectWallet = async () => {
         try {
             const { ethereum } = window;
             if (!ethereum) {
-                alert("Please Install MetaMask!");
+                alert("Please install MetaMask!");
                 return;
             }
             const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -20,40 +18,36 @@ function Connect(props) {
             const account = await signer.getAddress();
             const balance = await provider.getBalance(account);
             const balanceInEth = ethers.utils.formatEther(balance);
-            setData({ balance: balanceInEth, account });
+            setData({ balance: balanceInEth, account: account });
             props.updateStateData({
                 ...props.stateData,
                 provider,
-                signer,
-                connected: true,
+                account,
+                isConnected: true,
             });
         } catch (error) {
             console.log(error);
         }
-    }
+    };
     const disConnectWallet = async () => {
         props.updateStateData({
             ...props.stateData,
             provider: null,
             signer: null,
             account: null,
-            connected: false,
+            isConnected: false,
         });
     };
 
-    if (props.stateData.connected) {
+    if (props.stateData.isConnected) {
         console.log(data.account, data.balance);
         return (
-            <div>
+            <div className="topHeader">
                 <span className="btns">{data.account}</span><br />
-                <br />
                 <p>Balance:{data.balance}</p>
                 <button className="btns" onClick={disConnectWallet}>
-                    DisConnect
+                    disconnect
                 </button>
-                <LockToken1 stateData={data} updateStateData={setData} />
-
-
             </div>
         );
     } else {
@@ -62,9 +56,9 @@ function Connect(props) {
                 <button className="btns" onClick={connectWallet}>
                     Connect
                 </button>
-
             </div>
         );
     }
 }
+
 export default Connect;
