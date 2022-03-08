@@ -1,6 +1,8 @@
 import GetContract from "./GetContract";
 import { useState } from "react";
 import { useRef } from "react";
+import ContractAddress from "./ContractAddress";
+import TransactionDetails from "./TransactionDetails";
 
 function LockToken(props) {
     const tokenAmount = useRef();
@@ -43,7 +45,7 @@ function LockToken(props) {
     if (props.stateData.isConnected) {
         return (
             <>
-                <GetContract
+                <ContractAddress
                     stateData={props.stateData}
                     getData={contractData}
                     updateStateData={props.updateStateData}
@@ -78,6 +80,7 @@ function LockToken(props) {
                     <button onClick={handleApprove}>Approve</button>
                     <button onClick={handleLock}>Lock</button>
                 </div>
+
             </>
         );
     } else {
