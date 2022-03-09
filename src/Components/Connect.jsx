@@ -44,7 +44,7 @@ function Connect(props) {
         return (
             <div className="topHeader">
                 <span className="btns">{data.account}</span><br />
-                <p>Balance:{data.balance}</p>
+                Balance:{data.balance}
                 <button className="btns" onClick={disConnectWallet}>
                     disconnect
                 </button>

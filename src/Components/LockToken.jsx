@@ -9,21 +9,23 @@ function LockToken(props) {
     const unlockTime = useRef();
     var tokamount = 0;
     var untime = 0;
-    const [state, setState] = useState({});
+    var disable = true;
+    const [state, setState] = useState({ disable });
     async function handleApprove() {
         tokamount = tokenAmount.current.value;
         untime = unlockTime.current.value;
         //setState({ tokenAmount: tokens, unlockTime: time });
-        console.log(state);
+        //console.log(tokamount);
         await state.token.approve(state.lock.address, tokamount);
+        setState({ ...state, disable: false, tokamount, untime });
     }
 
     async function handleLock() {
-        //console.log(untime);
+        console.log(props.stateData);
         await props.stateData.lockContract.lockToken(
             state.token.address,
-            tokamount,
-            untime
+            state.tokamount,
+            state.untime
         );
         //const mapping = await props.stateData.lockContract.getMapping();
         //console.log(mapping);
@@ -34,10 +36,13 @@ function LockToken(props) {
         );
         const balance = parseInt(parseInt(bal._hex, 16));
         const symbol = await contracts.tokenContract.symbol();
+        const name = await contracts.tokenContract.name();
         console.log(props.stateData.account);
         setState({
+            ...state,
             balance: balance,
             symbol: symbol,
+            name: name,
             token: contracts.tokenContract,
             lock: contracts.lockContract,
         });
@@ -50,6 +55,7 @@ function LockToken(props) {
                     getData={contractData}
                     updateStateData={props.updateStateData}
                 />
+
                 <label> Token Amount</label>
                 <div>
                     <input
@@ -78,7 +84,7 @@ function LockToken(props) {
                 </div>
                 <div className="d-flex justify-content-evenly">
                     <button onClick={handleApprove}>Approve</button>
-                    <button onClick={handleLock}>Lock</button>
+                    <button id="lockbtn" onClick={handleLock} disabled={state.disable}>Lock</button>
                 </div>
 
             </>

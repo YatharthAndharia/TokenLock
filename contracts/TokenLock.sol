@@ -18,6 +18,7 @@ contract TokenLock {
     mapping(address => uint256[]) depositor;
     mapping(address => uint256[]) tokenDetail;
     mapping(address => mapping(address => uint256)) myBalance;
+    event TokenLocked(uint256 id);
 
     /**
      * @dev function Lock token in contract
@@ -25,6 +26,7 @@ contract TokenLock {
      * @param _amount {uint256} amount of Token to lock
      * @param _unlockTime {uint256} unlock Time
      */
+
     function lockToken(
         address _tokenAddress,
         uint256 _amount,
@@ -45,6 +47,7 @@ contract TokenLock {
         allIds.push(id);
         tokenDetail[_tokenAddress].push(id);
         id++;
+        emit TokenLocked(id);
     }
 
     /**

@@ -4,6 +4,7 @@ import TransactionDetails from "./Components/TransactionDetails";
 import Connect from "./Components/Connect";
 import LockToken from "./Components/LockToken";
 import ContractAddress from "./Components/ContractAddress";
+
 function App() {
   const [state, setState] = useState({
     isConnected: false,

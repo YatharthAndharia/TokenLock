@@ -4,8 +4,8 @@ import { ethers } from "ethers";
 import { useRef } from "react";
 import { useState } from "react";
 import TransactionDetails from "./TransactionDetails";
-const tokenAddress = "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d";
-const lockAddress = "0x59b670e9fA9D0A427751Af201D676719a970857b";
+const tokenAddress = "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9";
+const lockAddress = "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8";
 
 function ContractAddress(props) {
     const [state, setState] = useState({});
@@ -23,7 +23,7 @@ function ContractAddress(props) {
     return (
         <>
             <input type="text" ref={contractaddress}></input>
-            <button onClick={getContractAddress}>Submit</button>
+            <button onClick={getContractAddress}>Submit</button><br />
 
         </>
     )
