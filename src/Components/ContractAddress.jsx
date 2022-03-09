@@ -4,8 +4,8 @@ import { ethers } from "ethers";
 import { useRef } from "react";
 import { useState } from "react";
 import TransactionDetails from "./TransactionDetails";
-const tokenAddress = "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9";
-const lockAddress = "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8";
+const tokenAddress = "0xFD471836031dc5108809D173A067e8486B9047A3";
+const lockAddress = "0xcbEAF3BDe82155F56486Fb5a1072cb8baAf547cc";
 
 function ContractAddress(props) {
     const [state, setState] = useState({});
