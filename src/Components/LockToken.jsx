@@ -14,8 +14,13 @@ function LockToken(props) {
     async function handleApprove() {
         tokamount = tokenAmount.current.value;
         untime = unlockTime.current.value;
-        await state.token.approve(state.lock.address, tokamount);
-        setState({ ...state, disable: false, tokamount, untime });
+        console.log(props.stateData);
+        await props.stateData.tokenContract.approve(state.lock.address, tokamount);
+        props.stateData.tokenContract.on("Approval", (owner, spender, value) => {
+            console.log("Yatharth");
+            setState({ ...state, disable: false, tokamount, untime });
+            disable = false;
+        });
         //console.log(props.stateData.tokenContract);
     }
 
@@ -31,8 +36,9 @@ function LockToken(props) {
                 await props.stateData.account
             );
             const balance = parseInt(parseInt(bal._hex, 16));
-            console.log(balance);
-            setState({ ...state, balance: balance });
+            //console.log(balance);
+
+            setState({ ...state, balance: balance, disable: true });
         })
         //const mapping = await props.stateData.lockContract.getMapping();
         //console.log(mapping);
