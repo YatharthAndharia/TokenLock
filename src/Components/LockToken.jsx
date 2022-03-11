@@ -7,6 +7,7 @@ import "./LockToken.css";
 function LockToken(props) {
   const tokenAmount = useRef();
   const unlockTime = useRef();
+  //console.log(unlockTime.current.value);
   var tokamount = 0;
   var untime = 0;
   var disable = true;
@@ -14,7 +15,7 @@ function LockToken(props) {
   async function handleApprove() {
     tokamount = tokenAmount.current.value;
     untime = unlockTime.current.value;
-    console.log(props.stateData);
+    // console.log(Date.parse("15/03/2022, 13:40"));
     await props.stateData.tokenContract.approve(state.lock.address, tokamount);
     props.stateData.tokenContract.on("Approval", (owner, spender, value) => {
       setState({ ...state, disable: false, tokamount, untime });
@@ -72,50 +73,52 @@ function LockToken(props) {
   } else if (props.stateData.isConnected && state.balance != null) {
     return (
       <>
-        <div className="card bg-light mx-5">
-          <div className="card-body">
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        ></link>
+        <div className="card bg-light mx-5 myCard">
+          <div className="card-body bg-light">
+            <center>
+              <h4>
+                <i className="fa fa-lock"></i> Configure Lock
+              </h4>
+            </center>
             <div>
+              <br />
               <label> Token Amount</label>{" "}
-              <input className="w-25 " type="text" required ref={tokenAmount} />{" "}
+              <input
+                className="w-25 rounded"
+                type="text"
+                required
+                ref={tokenAmount}
+              />{" "}
               <label>Unlock Time</label>{" "}
-              <input className="w-25" type="text" required ref={unlockTime} />{" "}
+              <input
+                className="w-25 rounded"
+                type="text" //"datetime-local"
+                required
+                ref={unlockTime}
+              />
               <label>Balance:{state.balance}</label> <span>{state.symbol}</span>
             </div>
             <br />
             <div className="d-flex justify-content-evenly">
-              <button onClick={handleApprove}>Approve</button>
+              <button onClick={handleApprove} className="btn btn-warning">
+                Approve
+              </button>
               <button
                 id="lockbtn"
                 onClick={handleLock}
                 disabled={state.disable}
+                className="btn btn-success"
               >
                 Lock
               </button>
             </div>
           </div>
         </div>
-        {/* <label> Token Amount</label>
-        <div>
-          <input className="w-25 " type="text" required ref={tokenAmount} />
-        </div>
 
-        <div className="col-4 data-field">
-          <label>Balance:{state.balance}</label>
-          <span>{state.symbol}</span>
-        </div>
-
-        <div className="header d-flex">
-          <div className="col-8 data-field">
-            <label>Unlock Time</label>
-            <input className="w-25" type="text" required ref={unlockTime} />
-          </div>
-        </div>
-        <div className="d-flex justify-content-evenly">
-          <button onClick={handleApprove}>Approve</button>
-          <button id="lockbtn" onClick={handleLock} disabled={state.disable}>
-            Lock
-          </button>
-        </div> */}
         <TransactionDetails
           stateData={props.stateData}
           updateStateData={props.updateStateData}

@@ -1,0 +1,10 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.tablecontent {
+  overflow-y: auto;
+  overflow-x: auto;
+  max-height: 375px;
+}

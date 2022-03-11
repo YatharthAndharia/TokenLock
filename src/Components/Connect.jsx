@@ -31,6 +31,7 @@ function Connect(props) {
     }
   };
   const disConnectWallet = async () => {
+    console.log(data);
     props.updateStateData({
       ...props.stateData,
       provider: null,
@@ -38,21 +39,27 @@ function Connect(props) {
       account: null,
       isConnected: false,
     });
+    window.location.reload();
   };
-
+  //console.log(data);
   if (props.stateData.isConnected) {
     console.log(data.account, data.balance);
     return (
-      <div className="topHeader d-flex flex-row-reverse mx-5 ">
-        <span className="btns">
-          <div>{data.account}</div>
-          <div>Balance:{data.balance}</div>
-          <div>
-            <button className="btn btn-danger" onClick={disConnectWallet}>
-              disconnect
-            </button>
-          </div>
-        </span>
+      <div className="d-flex justify-content-between mx-5">
+        {/* <div className="topHeader d-flex flex-row mx-5 card bg-primary"> */}
+        {/* <div className="d-flex justify-contenet-around"> */}
+        <div className="p-1 overflow textcolor">{data.account}</div>
+        <div className="p-1 overflow textcolor">Bal:{data.balance}</div>
+        {/* </div> */}
+        {/* </div> */}
+        <div>
+          <button
+            className="btn btn-danger btn-sm my-1"
+            onClick={disConnectWallet}
+          >
+            Disconnect
+          </button>
+        </div>
       </div>
     );
   } else {

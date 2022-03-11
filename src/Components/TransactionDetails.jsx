@@ -1,9 +1,6 @@
-import Token from "../artifacts/contracts/Token.sol/Token.json";
-import Lock from "../artifacts/contracts/TokenLock.sol/TokenLock.json";
-import { ethers } from "ethers";
-import { useRef } from "react";
 import { useState } from "react";
 import SimpleDateTime from "react-simple-timestamp-to-date";
+import "./TransactionDetails.css";
 
 function TransactionDetails(props) {
   const tnxs = [];
@@ -37,65 +34,70 @@ function TransactionDetails(props) {
   async function handleWithdraw(tnx_id) {
     await props.stateData.lockContract.withDrawToken(tnx_id);
   }
-
   if (props.stateData.isConnected && state.tnxs != null) {
     return (
       <>
         {/* <div className="container"> */}
-        <table className="table table-bordered table-striped table-light">
-          <thead>
-            <tr>
-              <th scope="col">Transaction ID</th>
-              <th scope="col">Token Name</th>
-              <th scope="col">Token Symbol</th>
-              <th scope="col">Token Amount</th>
-              <th scope="col">UnlockTime</th>
-              <th scope="col">Owner</th>
-            </tr>
-          </thead>
-          <tbody>
-            {state.tnxs.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{state.tokname}</td>
-                <td>{state.toksymbol}</td>
-                <td>{item.amount}</td>
-                <td>
-                  <SimpleDateTime
-                    dateFormat="DMY"
-                    dateSeparator="/"
-                    timeSeparator=":"
-                  >
-                    {item.unlockTime}
-                  </SimpleDateTime>
-                </td>
-                <td>{item.owner}</td>
-                <td>
-                  <button
-                    className="btn btn-success"
-                    disabled={item.withdrawed}
-                    onClick={() => {
-                      handleWithdraw(item.id);
-                    }}
-                  >
-                    Withdraw
-                  </button>
-                </td>
+        <br />
+        <div className="tablecontent mx-3 rounded">
+          <table className="table table-bordered table-striped table-light">
+            <thead className="position-sticky">
+              <tr>
+                <th scope="col">Transaction ID</th>
+                <th scope="col">Token Name</th>
+                <th scope="col">Token Symbol</th>
+                <th scope="col">Token Amount</th>
+                <th scope="col">UnlockTime</th>
+                <th scope="col">Owner</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {state.tnxs.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{state.tokname}</td>
+                  <td>{state.toksymbol}</td>
+                  <td>{item.amount}</td>
+                  <td>
+                    <SimpleDateTime
+                      dateFormat="DMY"
+                      dateSeparator="/"
+                      timeSeparator=":"
+                    >
+                      {item.unlockTime}
+                    </SimpleDateTime>
+                  </td>
+                  <td>{item.owner}</td>
+                  <td>
+                    <button
+                      className="btn btn-success"
+                      disabled={item.withdrawed}
+                      onClick={() => {
+                        handleWithdraw(item.id);
+                      }}
+                    >
+                      Withdraw
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <center>
-          <br />
-          <button onClick={getDetails}>TransactionDetails</button>
+          <button onClick={getDetails} className="btn btn-light m-2">
+            <i className="fa fa-refresh"></i>
+          </button>
         </center>
       </>
     );
   } else if (props.stateData.isConnected) {
     return (
       <center>
-        <br />
-        <button onClick={getDetails}>TransactionDetails</button>
+        <button onClick={getDetails} className="btn btn-primary">
+          TransactionDetails
+        </button>
       </center>
     );
   } else return <h1>Helloworld</h1>;

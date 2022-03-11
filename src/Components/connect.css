@@ -7,3 +7,15 @@
   text-align: right;
   align-items: center;
 }
+.overflow {
+  width: 125px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+div.overflow:hover {
+  overflow: visible;
+}
+.textcolor {
+  color: aliceblue;
+}

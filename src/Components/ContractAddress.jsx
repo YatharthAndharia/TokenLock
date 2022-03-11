@@ -5,8 +5,8 @@ import { useRef } from "react";
 import { useState } from "react";
 import TransactionDetails from "./TransactionDetails";
 import "./ContractAddress.css";
-const tokenAddress = "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8";
-const lockAddress = "0x851356ae760d987E095750cCeb3bC6014560891C";
+const tokenAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+const lockAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
 function ContractAddress(props) {
   const [state, setState] = useState({});
@@ -28,13 +28,37 @@ function ContractAddress(props) {
   };
   return (
     <>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      ></link>
       <br />
       <center>
         {/* <div className="container"> */}
+
         <div className="card bg-light mx-5">
+          <center className="card-title my-1">
+            <h5>
+              <b>
+                <i className="fa fa-lock"></i> Create New Lock
+              </b>
+            </h5>
+          </center>
           <div className="card-body">
-            <h5 className="card-title">Enter Token Address</h5>
-            <input type="text" ref={contractaddress}></input>
+            <div className="card-title">
+              <small className="textcolorgray">
+                Enter the token address you would like to lock for
+              </small>
+            </div>
+            <input
+              className="form-control"
+              type="text"
+              ref={contractaddress}
+            ></input>
+
+            <small className="textcolorgray">
+              e.g. 0xb05AF453011d7ad68a92b0065FFD9d1277eD2741
+            </small>
 
             <p>
               <br />{" "}
