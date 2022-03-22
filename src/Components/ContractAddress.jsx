@@ -5,10 +5,11 @@ import { useRef } from "react";
 import { useState } from "react";
 import TransactionDetails from "./TransactionDetails";
 import "./ContractAddress.css";
-const tokenAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
-const lockAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const lockAddress =
+  /*process.env.REACT_APP_LOCKCONTRACTADDRESS;*/ "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
 function ContractAddress(props) {
+  console.log(lockAddress);
   const [state, setState] = useState({});
   const contractaddress = useRef();
   //   setState({ ...state, tokenAddress: contractaddress });
@@ -57,7 +58,7 @@ function ContractAddress(props) {
             ></input>
 
             <small className="textcolorgray">
-              e.g. 0xb05AF453011d7ad68a92b0065FFD9d1277eD2741
+              e.g. 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
             </small>
 
             <p>

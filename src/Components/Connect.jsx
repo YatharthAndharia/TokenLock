@@ -64,16 +64,14 @@ function Connect(props) {
     );
   } else {
     return (
-      <>
-        <nav className="navbar navbar-dark bg-primary">
-          <button
-            className="topHeader connectbtn btn btn-primary"
-            onClick={connectWallet}
-          >
-            Connect
-          </button>
-        </nav>
-      </>
+      <div className="d-flex justify-content-center">
+        <button
+          className="topHeader connectbtn btn btn-light"
+          onClick={connectWallet}
+        >
+          Connect
+        </button>
+      </div>
     );
   }
 }

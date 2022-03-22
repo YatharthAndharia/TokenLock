@@ -95,7 +95,7 @@ function TransactionDetails(props) {
   } else if (props.stateData.isConnected) {
     return (
       <center>
-        <button onClick={getDetails} className="btn btn-primary">
+        <button onClick={getDetails} className="btn btn-light m-2">
           TransactionDetails
         </button>
       </center>
