@@ -1,6 +1,8 @@
 import { useState } from "react";
 import SimpleDateTime from "react-simple-timestamp-to-date";
 import "./TransactionDetails.css";
+import Token from "../artifacts/contracts/Token.sol/Token.json";
+import { ethers } from "ethers";
 
 function TransactionDetails(props) {
   const tnxs = [];
@@ -13,10 +15,17 @@ function TransactionDetails(props) {
       const detail = await props.stateData.lockContract.getDetailsOf(i);
       // const unlock = parseInt(detail.lockedTime._hex, 16);
       // console.log(unlock);
+      const tok = new ethers.Contract(
+        detail.tokenAddress,
+        Token.abi,
+        props.stateData.provider
+      );
       const obj = {
         id: parseInt(detail.id._hex, 16),
         owner: detail.owner,
         tokenAddress: detail.tokenAddress,
+        symb: await tok.symbol(),
+        name: await tok.name(),
         withdrawed: detail.withdrawed,
         amount: parseInt(detail.amount._hex, 16),
         lockedTime: parseInt(detail.lockedTime._hex, 16),
@@ -57,8 +66,8 @@ function TransactionDetails(props) {
               {state.tnxs.map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
-                  <td>{state.tokname}</td>
-                  <td>{state.toksymbol}</td>
+                  <td>{item.name}</td>
+                  <td>{item.symb}</td>
                   <td>{item.amount}</td>
                   <td>
                     <SimpleDateTime

@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./TokenLock.sol";
 
 contract Token is ERC20 {
-    constructor(uint256 initialSupply) ERC20("Dijkstra", "DT") {
+    constructor(uint256 initialSupply) ERC20("Dijkstra", "BTC") {
         _mint(msg.sender, initialSupply);
     }
 
