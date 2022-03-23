@@ -126,11 +126,7 @@ function LockToken(props) {
       </>
     );
   } else {
-    return (
-      <div className="container-fluid  msg">
-        <h3>Please Connect Your Wallet First (:</h3>
-      </div>
-    );
+    return <></>;
   }
 }
 export default LockToken;

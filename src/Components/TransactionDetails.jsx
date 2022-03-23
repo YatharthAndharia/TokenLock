@@ -32,6 +32,7 @@ function TransactionDetails(props) {
   }
 
   async function handleWithdraw(tnx_id) {
+    // console.log("Lock==>", props.stateData.lockContract);
     await props.stateData.lockContract.withDrawToken(tnx_id);
   }
   if (props.stateData.isConnected && state.tnxs != null) {

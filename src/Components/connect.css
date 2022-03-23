@@ -8,6 +8,7 @@
   align-items: center;
 }
 .overflow {
+  color: black;
   width: 125px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -15,7 +16,13 @@
 }
 div.overflow:hover {
   overflow: visible;
+  color: black;
 }
 .textcolor {
-  color: aliceblue;
+  color: black;
+}
+.cardclass {
+  opacity: 85%;
+  background-color: #366dcb;
+  color: white;
 }
