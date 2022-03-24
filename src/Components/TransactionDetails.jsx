@@ -16,6 +16,12 @@ function TransactionDetails(props) {
         Token.abi,
         props.stateData.provider
       );
+      var timeDiff1 =
+        Math.floor(Date.now() / 1000) - parseInt(detail.lockedTime._hex, 16);
+      var timeDiff2 =
+        parseInt(detail.unlockTime._hex, 16) -
+        parseInt(detail.lockedTime._hex, 16);
+      var meterValue = timeDiff1 / timeDiff2;
       const obj = {
         id: parseInt(detail.id._hex, 16),
         owner: detail.owner,
@@ -26,6 +32,7 @@ function TransactionDetails(props) {
         amount: parseInt(detail.amount._hex, 16),
         lockedTime: parseInt(detail.lockedTime._hex, 16),
         unlockTime: parseInt(detail.unlockTime._hex, 16),
+        meter: meterValue,
       };
       tnxs.push(obj);
     }
@@ -37,6 +44,7 @@ function TransactionDetails(props) {
   async function handleWithdraw(tnx_id) {
     await props.stateData.lockContract.withDrawToken(tnx_id);
   }
+
   if (props.stateData.isConnected && state.tnxs != null) {
     return (
       <>
@@ -69,6 +77,8 @@ function TransactionDetails(props) {
                     >
                       {item.unlockTime}
                     </SimpleDateTime>
+                    <br />
+                    <progress id="disk_d" value={item.meter}></progress>
                   </td>
                   <td>{item.owner}</td>
                   <td>
