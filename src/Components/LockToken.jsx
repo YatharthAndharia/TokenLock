@@ -3,6 +3,7 @@ import { useRef } from "react";
 import ContractAddress from "./ContractAddress";
 import TransactionDetails from "./TransactionDetails";
 import "./LockToken.css";
+import Footer from "./Footer";
 
 function LockToken(props) {
   const tokenAmount = useRef();
@@ -50,7 +51,6 @@ function LockToken(props) {
     const balance = parseInt(parseInt(bal._hex, 16));
     const symbol = await contracts.tokenContract.symbol();
     const name = await contracts.tokenContract.name();
-    console.log(props.stateData.account);
     setState({
       ...state,
       balance: balance,
@@ -77,52 +77,58 @@ function LockToken(props) {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
-        <div className="card bg-light mx-5 myCard">
-          <div className="card-body bg-light">
-            <center>
-              <h4>
-                <i className="fa fa-lock"></i> Configure Lock
-              </h4>
-            </center>
-            <div>
+        <center>
+          <div className="card bg-light m-5 mb-2 col-sm-6">
+            <div className="card-body bg-light">
+              <center>
+                <h4>
+                  <i className="fa fa-lock"></i> Configure Lock
+                </h4>
+              </center>
+              <div>
+                <br />
+                <label> Token Amount</label>{" "}
+                <input
+                  className="form-control rounded"
+                  type="number"
+                  required
+                  ref={tokenAmount}
+                />{" "}
+                <label>Unlock Time</label>{" "}
+                <input
+                  className="form-control rounded"
+                  type="number" //"datetime-local"
+                  required
+                  ref={unlockTime}
+                />
+                <br />
+                <label>Balance:{state.balance}</label>{" "}
+                <span>{state.symbol}</span>
+              </div>
               <br />
-              <label> Token Amount</label>{" "}
-              <input
-                className="w-25 rounded"
-                type="text"
-                required
-                ref={tokenAmount}
-              />{" "}
-              <label>Unlock Time</label>{" "}
-              <input
-                className="w-25 rounded"
-                type="text" //"datetime-local"
-                required
-                ref={unlockTime}
-              />
-              <label>Balance:{state.balance}</label> <span>{state.symbol}</span>
-            </div>
-            <br />
-            <div className="d-flex justify-content-evenly">
-              <button onClick={handleApprove} className="btn btn-warning">
-                Approve
-              </button>
-              <button
-                id="lockbtn"
-                onClick={handleLock}
-                disabled={state.disable}
-                className="btn btn-success"
-              >
-                Lock
-              </button>
+              <div className="d-flex justify-content-evenly">
+                <button onClick={handleApprove} className="btn btn-warning">
+                  Approve
+                </button>
+                <button
+                  id="lockbtn"
+                  onClick={handleLock}
+                  disabled={state.disable}
+                  className="btn btn-success"
+                >
+                  Lock
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </center>
 
         <TransactionDetails
           stateData={props.stateData}
           updateStateData={props.updateStateData}
         />
+
+        <Footer />
       </>
     );
   } else {

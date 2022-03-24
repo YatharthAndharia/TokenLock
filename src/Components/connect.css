@@ -9,7 +9,7 @@
 }
 .overflow {
   color: black;
-  width: 125px;
+  width: 200px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

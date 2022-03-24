@@ -3,13 +3,12 @@ import Lock from "../artifacts/contracts/TokenLock.sol/TokenLock.json";
 import { ethers } from "ethers";
 import { useRef } from "react";
 import { useState } from "react";
-import TransactionDetails from "./TransactionDetails";
+import Footer from "./Footer";
 import "./ContractAddress.css";
 const lockAddress =
   /*process.env.REACT_APP_LOCKCONTRACTADDRESS;*/ "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 
 function ContractAddress(props) {
-  console.log(lockAddress);
   const [state, setState] = useState({});
   const contractaddress = useRef();
   //   setState({ ...state, tokenAddress: contractaddress });
@@ -37,7 +36,7 @@ function ContractAddress(props) {
       <center>
         {/* <div className="container"> */}
 
-        <div className="card bg-light mx-5">
+        <div className="card bg-light mx-5 col-sm-6 p-4">
           <center className="card-title my-1">
             <h5>
               <b>
@@ -71,6 +70,8 @@ function ContractAddress(props) {
         </div>
         {/* </div> */}
       </center>
+
+      <Footer />
     </>
   );
 }

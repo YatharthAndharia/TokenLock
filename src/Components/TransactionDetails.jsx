@@ -8,13 +8,9 @@ function TransactionDetails(props) {
   const tnxs = [];
   const [state, setState] = useState({});
   async function getDetails() {
-    //const tnxs = [];
     const ids = await props.stateData.lockContract.myTransactions();
-    //console.log(ids);
     for (let i = 0; i < ids.length; i++) {
       const detail = await props.stateData.lockContract.getDetailsOf(i);
-      // const unlock = parseInt(detail.lockedTime._hex, 16);
-      // console.log(unlock);
       const tok = new ethers.Contract(
         detail.tokenAddress,
         Token.abi,
@@ -35,19 +31,15 @@ function TransactionDetails(props) {
     }
     var tokname = await props.stateData.tokenContract.name();
     var toksymbol = await props.stateData.tokenContract.symbol();
-    //console.log(tokname, toksymbol);
     setState({ ...state, tnxs, tokname, toksymbol });
-    //console.log();
   }
 
   async function handleWithdraw(tnx_id) {
-    // console.log("Lock==>", props.stateData.lockContract);
     await props.stateData.lockContract.withDrawToken(tnx_id);
   }
   if (props.stateData.isConnected && state.tnxs != null) {
     return (
       <>
-        {/* <div className="container"> */}
         <br />
         <div className="tablecontent mx-3 rounded">
           <table className="table table-bordered table-striped table-light">

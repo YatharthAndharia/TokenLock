@@ -11,7 +11,7 @@ function App() {
   });
   return (
     <div>
-      {/* <Navbar stateData={state} updateStateData={setState} /> */}
+      <Navbar stateData={state} updateStateData={setState} />
       <Connect stateData={state} updateStateData={setState} />
 
       <LockToken stateData={state} updateStateData={setState} />
