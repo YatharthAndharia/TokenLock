@@ -23,6 +23,6 @@ div.overflow:hover {
 }
 .cardclass {
   opacity: 85%;
-  background-color: #366dcb;
+  background-color: rgb(46, 45, 45);
   color: white;
 }

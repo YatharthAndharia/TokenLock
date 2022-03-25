@@ -104,7 +104,7 @@ function Navbar(props) {
 
             <div className="mx-2">
               <button
-                className="topHeader connectbtn btn btn-primary"
+                className="topHeader connectbtn btn btn-dark"
                 onClick={connectWallet}
               >
                 Connect Wallet
@@ -177,7 +177,7 @@ function Navbar(props) {
           </div>
         </nav>
 
-        <div className="bg-primary">
+        <div className="bg-dark">
           <div className="d-flex justify-content-between mx-5 col-10">
             {/* <div className="topHeader d-flex flex-row mx-5 card bg-primary"> */}
             {/* <div className="d-flex justify-contenet-around"> */}

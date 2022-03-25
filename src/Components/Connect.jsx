@@ -16,7 +16,7 @@ function Connect(props) {
   } else {
     return (
       <>
-        <section className="bg-primary">
+        <section className="bg-dark">
           <div className="row mb-5 p-2">
             <center className="m-2">
               <div className="d-flex justify-content-center mt-2">
@@ -115,7 +115,7 @@ function Connect(props) {
           </table>
         </div>
 
-        <div className="row m-5 bg-primary rounded">
+        <div className="row m-5 bg-dark rounded">
           <div className="col-sm-4 my-5">
             <div className="card">
               <div className="card-body">

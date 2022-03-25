@@ -5,8 +5,7 @@ import { useRef } from "react";
 import { useState } from "react";
 import Footer from "./Footer";
 import "./ContractAddress.css";
-const lockAddress =
-  /*process.env.REACT_APP_LOCKCONTRACTADDRESS;*/ "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const lockAddress = process.env.REACT_APP_LOCKCONTRACTADDRESS;
 
 function ContractAddress(props) {
   const [state, setState] = useState({});

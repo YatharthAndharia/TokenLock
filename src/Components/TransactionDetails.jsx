@@ -10,6 +10,7 @@ function TransactionDetails(props) {
   async function getDetails() {
     const ids = await props.stateData.lockContract.myTransactions();
     for (let i = 0; i < ids.length; i++) {
+      const e = parseInt(ids[i]._hex, 16);
       const detail = await props.stateData.lockContract.getDetailsOf(i);
       const tok = new ethers.Contract(
         detail.tokenAddress,
@@ -30,6 +31,7 @@ function TransactionDetails(props) {
         name: await tok.name(),
         withdrawed: detail.withdrawed,
         amount: parseInt(detail.amount._hex, 16),
+        unAmount: parseInt(detail.amountUnlocked._hex, 16),
         lockedTime: parseInt(detail.lockedTime._hex, 16),
         unlockTime: parseInt(detail.unlockTime._hex, 16),
         meter: meterValue,
@@ -68,7 +70,7 @@ function TransactionDetails(props) {
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.symb}</td>
-                  <td>{item.amount}</td>
+                  <td>{item.unAmount}</td>
                   <td>
                     <SimpleDateTime
                       dateFormat="DMY"
@@ -98,7 +100,7 @@ function TransactionDetails(props) {
           </table>
         </div>
         <center>
-          <button onClick={getDetails} className="btn btn-light m-2">
+          <button onClick={getDetails} className="btn btn-dark m-2">
             <i className="fa fa-refresh"></i>
           </button>
         </center>
@@ -107,7 +109,7 @@ function TransactionDetails(props) {
   } else if (props.stateData.isConnected) {
     return (
       <center>
-        <button onClick={getDetails} className="btn btn-light m-2">
+        <button onClick={getDetails} className="btn btn-dark m-2">
           TransactionDetails
         </button>
       </center>

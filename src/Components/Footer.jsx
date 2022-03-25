@@ -17,66 +17,66 @@ function Footer() {
               />
             </div>
 
-            <div className="col-lg-2 col-md-3 col ">
+            <div className="col-lg-2 col-md-3 col">
               <h5>Platform</h5>
 
-              <a className="my-2 ">Explore</a>
+              <li className="mb-1 ">Explore</li>
               <br />
 
-              <a className="my-2">All Coin</a>
+              <li className="mb-1">All Coin</li>
               <br />
 
-              <a className="my-2">About</a>
+              <li className="mb-1">About</li>
               <br />
 
-              <a className="my-2">SmartSwap</a>
+              <li className="mb-1">SmartSwap</li>
             </div>
 
             <div className="col-lg-2 col-md-3 col">
               <h5>Lockups</h5>
 
-              <a className="my-2">Create Lock</a>
+              <li className="mb-1">Create Lock</li>
               <br />
 
-              <a className="my-2">My Lockups</a>
+              <li className="mb-1">My Lockups</li>
               <br />
 
-              <a className="my-2">Help Locking</a>
+              <li className="mb-1">Help Locking</li>
               <br />
 
-              <a className="my-2">FAQ</a>
+              <li className="mb-1">FAQ</li>
               <br />
             </div>
 
             <div className="col-lg-2 col-md-3 col footer-list">
               <h5>Company</h5>
 
-              <a className="my-2">Privacy Poacy</a>
+              <li className="mb-1">Privacy Poacy</li>
               <br />
 
-              <a className="my-2">Terms & Condition</a>
+              <li className="mb-1">Terms & Condition</li>
               <br />
 
-              <a className="my-2">GitBook</a>
+              <li className="mb-1">GitBook</li>
               <br />
 
-              <a className="my-2">Help Center</a>
+              <li className="mb-1">Help Center</li>
               <br />
             </div>
 
             <div className="col-lg-2 col-md-3 col">
               <h5>Connect</h5>
 
-              <a className="my-2">Facebook</a>
+              <li className="mb-1">Facebook</li>
               <br />
 
-              <a className="my-2">Discord</a>
+              <li className="mb-1">Discord</li>
               <br />
 
-              <a className="my-2">Github</a>
+              <li className="mb-1">Github</li>
               <br />
 
-              <a className="my-2">Twitter</a>
+              <li className="mb-1">Twitter</li>
               <br />
             </div>
           </div>

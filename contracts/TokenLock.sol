@@ -10,6 +10,7 @@ contract TokenLock {
         uint256 lockedTime;
         uint256 unlockTime;
         uint256 amount;
+        uint256 amountUnlocked;
         bool withdrawed;
     }
     uint256 id = 0;
@@ -40,6 +41,7 @@ contract TokenLock {
         lockedTokens[id].lockedTime = block.timestamp;
         lockedTokens[id].unlockTime = block.timestamp + _unlockTime;
         lockedTokens[id].amount = _amount;
+        lockedTokens[id].amountUnlocked = _amount;
         lockedTokens[id].withdrawed = false;
 
         myBalance[msg.sender][_tokenAddress] += _amount;
