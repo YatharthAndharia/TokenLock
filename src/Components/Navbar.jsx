@@ -26,7 +26,7 @@ function Navbar(props) {
         isConnected: true,
       });
     } catch (error) {
-      console.log(error);
+      alert("Please Unlock Your MetaMask");
     }
   };
 

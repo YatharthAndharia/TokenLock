@@ -10,20 +10,24 @@ const lockAddress = process.env.REACT_APP_LOCKCONTRACTADDRESS;
 function ContractAddress(props) {
   const [state, setState] = useState({});
   const contractaddress = useRef();
-  //   setState({ ...state, tokenAddress: contractaddress });
   const getContractAddress = async () => {
-    //console.log(contractaddress.current.value);
-    //setState({ ...state, contaddr: contractaddress.current.value });
-    //console.log(state.contaddr);
     const signer = await props.stateData.provider.getSigner();
-    const tokenContract = new ethers.Contract(
-      contractaddress.current.value,
-      Token.abi,
-      signer
-    );
-    const lockContract = new ethers.Contract(lockAddress, Lock.abi, signer);
-    props.updateStateData({ ...props.stateData, lockContract, tokenContract });
-    props.getData({ tokenContract, lockContract });
+    if (contractaddress.current.value.length == 42) {
+      const tokenContract = new ethers.Contract(
+        contractaddress.current.value,
+        Token.abi,
+        signer
+      );
+      const lockContract = new ethers.Contract(lockAddress, Lock.abi, signer);
+      props.updateStateData({
+        ...props.stateData,
+        lockContract,
+        tokenContract,
+      });
+      props.getData({ tokenContract, lockContract });
+    } else {
+      alert("Please Enter Valid Contract Address");
+    }
   };
   return (
     <>
@@ -33,8 +37,6 @@ function ContractAddress(props) {
       ></link>
       <br />
       <center>
-        {/* <div className="container"> */}
-
         <div className="card bg-light mx-5 col-sm-6 p-4">
           <center className="card-title my-1">
             <h5>
@@ -67,7 +69,6 @@ function ContractAddress(props) {
             </p>
           </div>
         </div>
-        {/* </div> */}
       </center>
 
       <Footer />

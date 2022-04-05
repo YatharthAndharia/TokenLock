@@ -1,66 +1,60 @@
-const { messagePrefix } = require("@ethersproject/hash");
+//
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+let owner;
+let addr1;
+let addr2;
+let token;
+let token2;
+let lock;
+beforeEach(async function () {
+  let Token = await ethers.getContractFactory("Token");
+  token = await Token.deploy(10000);
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+  let Token2 = await ethers.getContractFactory("Token");
+  token2 = await Token2.deploy(20000);
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+  let Lock = await ethers.getContractFactory("TokenLock");
+  lock = await Lock.deploy();
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
-
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
-
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
-
+  [owner, addr1, addr2] = await ethers.getSigners();
+  await token.transfer(addr1.address, 1000);
+  await token2.transfer(addr1.address, 2000);
+});
+describe("Testing", function () {
+  it("Token Approve testing (TransferFrom)", async function () {
+    await token.approve(addr1.address, 5000);
+    await token.connect(addr1).transferFrom(owner.address, lock.address, 1000);
+    expect(await token.balanceOf(lock.address)).to.equal(1000);
   });
-  it("Token Testing", async function () {
-    const Token = await ethers.getContractFactory("Token");
-    const token = await Token.deploy(1000);
-    await token.deployed();
-
-    const Token1 = await ethers.getContractFactory("Token");
-    const token1 = await Token1.deploy(1000);
-    await token1.deployed();
-
-    const TokenLock = await ethers.getContractFactory("TokenLock");
-    const tokenlock = await TokenLock.deploy();
-    await tokenlock.deployed();
-
-    const [owner, addr1] = await ethers.getSigners();
-    //expect(await token.balanceOf(owner.address)).to.equal(100);
-    await token.transfer(tokenlock.address, 100);
-    //await token1.transfer(tokenlock.address, 100);
-    await tokenlock.connect(owner).lockToken(100, owner.address, 10, token.address);
-    //await tokenlock.connect(owner).lockToken(40, owner.address, 0, token1.address);
-    //expect(await token.balanceOf(addr1.address)).to.equal(50);
-    //console.log(await token.address);
-    //console.log(flag);
-    console.log("Owner Balance : ", await token.balanceOf(owner.address));
-    console.log("TokenLock Balance : ", await token.balanceOf(tokenlock.address));
-    await token.transfer(tokenlock.address, 500);
-    await tokenlock.connect(owner).lockToken(500, owner.address, 20, token.address);
-    console.log("Owner Balance : ", await token.balanceOf(owner.address));
-    console.log("TokenLock Balance : ", await token.balanceOf(tokenlock.address));
-
-    //await tokenlock.withdrawToken(40, token1.address);
-    //console.log("Owner Balance : ", await token.balanceOf(owner.address));
-    //console.log("TokenLock Balance : ", await token.balanceOf(tokenlock.address));
-    //console.log("Owner Balance : ", await token1.balanceOf(owner.address));
-    //console.log("TokenLock Balance : ", await token1.balanceOf(tokenlock.address));
-    //console.log(await tokenlock.connect(owner).userDetails[owner.address]);
-    console.log(await tokenlock.connect(owner).getMapping());
+  it("Lock Token With Approve in contract", async function () {
+    await token.approve(lock.address, 1000);
+    await lock.lockToken(token.address, 500, 10);
+    await lock.lockToken(token.address, 300, 15);
+    expect(await token.balanceOf(lock.address)).to.equal(800);
   });
-  /*it("Frontend Testing", async function () {
-    const Frontend = await ethers.getContractFactory("Frontend");
-    const frontend = await Frontend.deploy();
-    await frontend.deployed();
-
-    
-    expect(await token.balanceOf(owner.address)).to.equal(100000);
-  });*/
+  it("Lock Multiple Token With Approve in contract", async function () {
+    await token.approve(lock.address, 1000);
+    await lock.lockToken(token.address, 500, 10);
+    await lock.lockToken(token.address, 300, 15);
+    await token2.approve(lock.address, 500);
+    await lock.lockToken(token2.address, 500, 10);
+    expect(await token.balanceOf(lock.address)).to.equal(800);
+    expect(await token2.balanceOf(lock.address)).to.equal(500);
+  });
+  it("Withdraw Token Testing", async function () {
+    await token.approve(lock.address, 1000);
+    await lock.lockToken(token.address, 500, 5);
+    expect(await token.balanceOf(lock.address)).to.equal(500);
+    function sleep(milliseconds) {
+      const date = Date.now();
+      let currentDate = null;
+      do {
+        currentDate = Date.now();
+      } while (currentDate - date < milliseconds);
+    }
+    sleep(5000);
+    await lock.withDrawToken(0);
+    expect(await token.balanceOf(lock.address)).to.equal(0);
+  });
 });

@@ -52,7 +52,7 @@ function TransactionDetails(props) {
       <>
         <br />
         <div className="tablecontent mx-3 rounded">
-          <table className="table table-bordered table-striped table-light">
+          <table className="table table-bordered table-striped table-dark">
             <thead className="position-sticky">
               <tr>
                 <th scope="col">Transaction ID</th>

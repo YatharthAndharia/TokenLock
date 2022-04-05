@@ -27,20 +27,32 @@ function LockToken(props) {
 
   async function handleLock() {
     //console.log(await props.stateData.tokenContract.balanceOf(await props.stateData.account));
-    await props.stateData.lockContract.lockToken(
-      state.token.address,
-      state.tokamount,
-      state.untime
-    );
-    await props.stateData.lockContract.on("TokenLocked", async (id) => {
-      const bal = await props.stateData.tokenContract.balanceOf(
-        await props.stateData.account
+    if (
+      parseInt(
+        parseInt(
+          props.stateData.tokenContract.balanceOf(props.stateData.account)._hex,
+          16
+        )
+      ) >= state.tokamount
+    ) {
+      await props.stateData.lockContract.lockToken(
+        state.token.address,
+        state.tokamount,
+        state.untime
       );
-      const balance = parseInt(parseInt(bal._hex, 16));
-      //console.log(balance);
-
-      setState({ ...state, balance: balance, disable: true });
-    });
+    } else {
+      alert("Insufficient Balance");
+    }
+    await props.stateData.lockContract.on(
+      "TokenLocked",
+      async (id, tokenAddress, owner, lockedTime, unlockTime, amount) => {
+        const bal = await props.stateData.tokenContract.balanceOf(
+          await props.stateData.account
+        );
+        const balance = parseInt(parseInt(bal._hex, 16));
+        setState({ ...state, balance: balance, disable: true });
+      }
+    );
     //const mapping = await props.stateData.lockContract.getMapping();
     //console.log(mapping);
   }
