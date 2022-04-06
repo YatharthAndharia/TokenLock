@@ -27,7 +27,7 @@ describe("Testing", function () {
     await expect(
       token.connect(addr1).transferFrom(owner.address, lock.address, 6000)
     ).to.be.revertedWith("ERC20: insufficient allowance");
-    await token.connect(addr1).transferFrom(owner.address, lock.address, 1000);
+    await token.connect(addr2).transferFrom(owner.address, lock.address, 1000);
     expect(await token.balanceOf(lock.address)).to.equal(1000);
   });
   it("Lock Token With Approve in contract", async function () {

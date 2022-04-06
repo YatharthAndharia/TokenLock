@@ -5,10 +5,48 @@ import lock from "../lock.svg";
 import laptop from "../laptop.svg";
 import smartswap from "../smartswap.jpeg";
 import Footer from "./Footer";
+import { useEffect } from "react";
+import TokenLock from "../artifacts/contracts/TokenLock.sol/TokenLock.json";
+import Token from "../artifacts/contracts/Token.sol/Token.json";
 
 function Connect(props) {
   const [data, setData] = useState({
     balance: null,
+  });
+
+  useEffect(() => {
+    const onLoad = async () => {
+      const pro = new ethers.providers.JsonRpcProvider();
+      const lockAddress = process.env.REACT_APP_LOCKCONTRACTADDRESS;
+      const contract = new ethers.Contract(lockAddress, TokenLock.abi, pro);
+
+      const ids = await contract.getAllIds();
+      for (let i = 0; i < ids.length; i++) {
+        const detail = await contract.getDetailsOf(i);
+        const tok = new ethers.Contract(detail.tokenAddress, Token.abi, pro);
+        //console.log(detail);
+        var timeDiff1 =
+          Math.floor(Date.now() / 1000) - parseInt(detail.lockedTime._hex, 16);
+        var timeDiff2 =
+          parseInt(detail.unlockTime._hex, 16) -
+          parseInt(detail.lockedTime._hex, 16);
+        var meterValue = timeDiff1 / timeDiff2;
+        const obj = {
+          id: parseInt(detail.id._hex, 16),
+          owner: detail.owner,
+          tokenAddress: detail.tokenAddress,
+          symb: await tok.symbol(),
+          name: await tok.name(),
+          withdrawed: detail.withdrawed,
+          amount: parseInt(detail.amount._hex, 16),
+          unAmount: parseInt(detail.amountUnlocked._hex, 16),
+          lockedTime: parseInt(detail.lockedTime._hex, 16),
+          unlockTime: parseInt(detail.unlockTime._hex, 16),
+          meter: meterValue,
+        };
+      }
+    };
+    onLoad();
   });
 
   if (props.stateData.isConnected) {
@@ -68,7 +106,7 @@ function Connect(props) {
           </div>
         </section>
 
-        <div className="tablecontent mx-3 rounded">
+        {/* <div className="tablecontent mx-3 rounded">
           <table className="table table-bordered table-striped table-light">
             <thead className="position-sticky">
               <tr>
@@ -110,10 +148,10 @@ function Connect(props) {
                   </button>
                 </td>
               </tr>
-            ))} */}
+            ))} 
             </tbody>
           </table>
-        </div>
+        </div> */}
 
         <div className="row m-5 bg-dark rounded">
           <div className="col-sm-4 my-5">
