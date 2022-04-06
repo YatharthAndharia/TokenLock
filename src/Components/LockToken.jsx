@@ -17,32 +17,34 @@ function LockToken(props) {
     tokamount = tokenAmount.current.value;
     untime = unlockTime.current.value;
     // console.log(Date.parse("15/03/2022, 13:40"));
-    await props.stateData.tokenContract.approve(state.lock.address, tokamount);
-    props.stateData.tokenContract.on("Approval", (owner, spender, value) => {
-      setState({ ...state, disable: false, tokamount, untime });
-      disable = false;
-    });
+
+    const bal = await props.stateData.tokenContract.balanceOf(
+      await props.stateData.account
+    );
+    const balance = parseInt(parseInt(bal._hex, 16));
+    if (tokamount <= balance) {
+      await props.stateData.tokenContract.approve(
+        state.lock.address,
+        tokamount
+      );
+      props.stateData.tokenContract.on("Approval", (owner, spender, value) => {
+        setState({ ...state, disable: false, tokamount, untime });
+        disable = false;
+      });
+    } else {
+      alert("Insufficient Token Balance");
+    }
     //console.log(props.stateData.tokenContract);
   }
 
   async function handleLock() {
     //console.log(await props.stateData.tokenContract.balanceOf(await props.stateData.account));
-    if (
-      parseInt(
-        parseInt(
-          props.stateData.tokenContract.balanceOf(props.stateData.account)._hex,
-          16
-        )
-      ) >= state.tokamount
-    ) {
-      await props.stateData.lockContract.lockToken(
-        state.token.address,
-        state.tokamount,
-        state.untime
-      );
-    } else {
-      alert("Insufficient Balance");
-    }
+    await props.stateData.lockContract.lockToken(
+      state.token.address,
+      state.tokamount,
+      state.untime
+    );
+
     await props.stateData.lockContract.on(
       "TokenLocked",
       async (id, tokenAddress, owner, lockedTime, unlockTime, amount) => {

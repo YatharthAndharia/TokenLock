@@ -24,12 +24,19 @@ beforeEach(async function () {
 describe("Testing", function () {
   it("Token Approve testing (TransferFrom)", async function () {
     await token.approve(addr1.address, 5000);
+    await expect(
+      token.connect(addr1).transferFrom(owner.address, lock.address, 6000)
+    ).to.be.revertedWith("ERC20: insufficient allowance");
     await token.connect(addr1).transferFrom(owner.address, lock.address, 1000);
     expect(await token.balanceOf(lock.address)).to.equal(1000);
   });
   it("Lock Token With Approve in contract", async function () {
-    await token.approve(lock.address, 1000);
+    await token.approve(lock.address, 1000000000000);
+    await expect(
+      lock.lockToken(token.address, 30000000000, 15)
+    ).to.be.revertedWith("ERC20: transfer amount exceeds balance");
     await lock.lockToken(token.address, 500, 10);
+    expect(await token.balanceOf(lock.address)).to.equal(500);
     await lock.lockToken(token.address, 300, 15);
     expect(await token.balanceOf(lock.address)).to.equal(800);
   });
@@ -46,6 +53,9 @@ describe("Testing", function () {
     await token.approve(lock.address, 1000);
     await lock.lockToken(token.address, 500, 5);
     expect(await token.balanceOf(lock.address)).to.equal(500);
+    await expect(lock.withDrawToken(0)).to.be.revertedWith(
+      "You can't withdraw token before unlocktime"
+    );
     function sleep(milliseconds) {
       const date = Date.now();
       let currentDate = null;
