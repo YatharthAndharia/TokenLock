@@ -3,15 +3,20 @@ import SimpleDateTime from "react-simple-timestamp-to-date";
 import "./TransactionDetails.css";
 import Token from "../artifacts/contracts/Token.sol/Token.json";
 import { ethers } from "ethers";
+import TokenLock from "../artifacts/contracts/TokenLock.sol/TokenLock.json";
 
 function TransactionDetails(props) {
   const tnxs = [];
   const [state, setState] = useState({});
   async function getDetails() {
-    const ids = await props.stateData.lockContract.myTransactions();
+    const pro = new ethers.providers.Web3Provider(window.ethereum);
+    const sig = pro.getSigner();
+    const lockAddress = process.env.REACT_APP_LOCKCONTRACTADDRESS;
+    const contract = new ethers.Contract(lockAddress, TokenLock.abi, sig);
+    const ids = await contract.myTransactions();
     for (let i = 0; i < ids.length; i++) {
       const e = parseInt(ids[i]._hex, 16);
-      const detail = await props.stateData.lockContract.getDetailsOf(i);
+      const detail = await props.stateData.lockContract.getDetailsOf(ids[i]);
       const tok = new ethers.Contract(
         detail.tokenAddress,
         Token.abi,

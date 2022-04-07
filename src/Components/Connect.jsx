@@ -8,11 +8,10 @@ import Footer from "./Footer";
 import { useEffect } from "react";
 import TokenLock from "../artifacts/contracts/TokenLock.sol/TokenLock.json";
 import Token from "../artifacts/contracts/Token.sol/Token.json";
+import SimpleDateTime from "react-simple-timestamp-to-date";
 
 function Connect(props) {
-  const [data, setData] = useState({
-    balance: null,
-  });
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const onLoad = async () => {
@@ -20,6 +19,7 @@ function Connect(props) {
       const lockAddress = process.env.REACT_APP_LOCKCONTRACTADDRESS;
       const contract = new ethers.Contract(lockAddress, TokenLock.abi, pro);
 
+      let arr = [];
       const ids = await contract.getAllIds();
       for (let i = 0; i < ids.length; i++) {
         const detail = await contract.getDetailsOf(i);
@@ -31,12 +31,14 @@ function Connect(props) {
           parseInt(detail.unlockTime._hex, 16) -
           parseInt(detail.lockedTime._hex, 16);
         var meterValue = timeDiff1 / timeDiff2;
+        const symb = await tok.symbol();
+        const name = await tok.name();
         const obj = {
           id: parseInt(detail.id._hex, 16),
           owner: detail.owner,
           tokenAddress: detail.tokenAddress,
-          symb: await tok.symbol(),
-          name: await tok.name(),
+          name: name,
+          symb: symb,
           withdrawed: detail.withdrawed,
           amount: parseInt(detail.amount._hex, 16),
           unAmount: parseInt(detail.amountUnlocked._hex, 16),
@@ -44,10 +46,13 @@ function Connect(props) {
           unlockTime: parseInt(detail.unlockTime._hex, 16),
           meter: meterValue,
         };
+        arr.push(obj);
+        // console.log(arr);
       }
+      setData(arr);
     };
     onLoad();
-  });
+  }, []);
 
   if (props.stateData.isConnected) {
     return <></>;
@@ -106,7 +111,7 @@ function Connect(props) {
           </div>
         </section>
 
-        {/* <div className="tablecontent mx-3 rounded">
+        <div className="tablecontent mx-3 rounded">
           <table className="table table-bordered table-striped table-light">
             <thead className="position-sticky">
               <tr>
@@ -116,43 +121,33 @@ function Connect(props) {
                 <th scope="col">Token Amount</th>
                 <th scope="col">UnlockTime</th>
                 <th scope="col">Owner</th>
-                <th></th>
+                <th>Withdraw Status</th>
               </tr>
             </thead>
             <tbody>
-              {/* {state.tnxs.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{state.tokname}</td>
-                <td>{state.toksymbol}</td>
-                <td>{item.amount}</td>
-                <td>
-                  <SimpleDateTime
-                    dateFormat="DMY"
-                    dateSeparator="/"
-                    timeSeparator=":"
-                  >
-                    {item.unlockTime}
-                  </SimpleDateTime>
-                </td>
-                <td>{item.owner}</td>
-                <td>
-                  <button
-                    className="btn btn-success"
-                    disabled={item.withdrawed}
-                    onClick={() => {
-                      handleWithdraw(item.id);
-                    }}
-                  >
-                    Withdraw
-                  </button>
-                </td>
-              </tr>
-            ))} 
+              {data.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.symb}</td>
+                  <td>{item.unAmount}</td>
+                  <td>
+                    <SimpleDateTime
+                      dateFormat="DMY"
+                      dateSeparator="/"
+                      timeSeparator=":"
+                    >
+                      {item.unlockTime}
+                    </SimpleDateTime>
+                    <progress id="disk_d" value={item.meter}></progress>
+                  </td>
+                  <td>{item.owner}</td>
+                  <td>{item.withdrawed ? "Withdrawn" : "Not Yet"}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
-        </div> */}
-
+        </div>
         <div className="row m-5 bg-dark rounded">
           <div className="col-sm-4 my-5">
             <div className="card">
