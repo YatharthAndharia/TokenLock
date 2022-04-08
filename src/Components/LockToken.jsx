@@ -16,7 +16,8 @@ function LockToken(props) {
   async function handleApprove() {
     tokamount = tokenAmount.current.value;
     untime = unlockTime.current.value;
-    // console.log(Date.parse("15/03/2022, 13:40"));
+    untime = Date.parse(untime) / 1000;
+    untime -= Math.floor(Date.now() / 1000);
 
     const bal = await props.stateData.tokenContract.balanceOf(
       await props.stateData.account
@@ -108,10 +109,18 @@ function LockToken(props) {
                   required
                   ref={tokenAmount}
                 />{" "}
-                <label>Unlock Time</label>{" "}
+                {/* <label>Unlock Time</label>{" "}
                 <input
                   className="form-control rounded"
                   type="number" //"datetime-local"
+                  required
+                  ref={unlockTime}
+                />
+                <br /> */}
+                <label>Unlock Time</label>{" "}
+                <input
+                  className="form-control rounded"
+                  type="datetime-local" //"datetime-local"
                   required
                   ref={unlockTime}
                 />
