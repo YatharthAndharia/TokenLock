@@ -4,6 +4,7 @@ import "./TransactionDetails.css";
 import Token from "../artifacts/contracts/Token.sol/Token.json";
 import { ethers } from "ethers";
 import TokenLock from "../artifacts/contracts/TokenLock.sol/TokenLock.json";
+import { useEffect } from "react";
 
 function TransactionDetails(props) {
   const tnxs = [];
@@ -48,6 +49,10 @@ function TransactionDetails(props) {
     setState({ ...state, tnxs, tokname, toksymbol });
   }
 
+  useEffect(() => {
+    getDetails();
+  }, [state]);
+
   async function handleWithdraw(tnx_id) {
     await props.stateData.lockContract.withDrawToken(tnx_id);
   }
@@ -85,13 +90,29 @@ function TransactionDetails(props) {
                       {item.unlockTime}
                     </SimpleDateTime>
                     <br />
-                    <progress id="disk_d" value={item.meter}></progress>
+                    {item.meter < 1 ? (
+                      <div
+                        className="progress bg-primary"
+                        style={{
+                          width: item.meter * 100 + "%",
+                          maxWidth: "100%",
+                        }}
+                      ></div>
+                    ) : (
+                      <div
+                        className="progress bg-success"
+                        style={{
+                          width: item.meter * 100 + "%",
+                          maxWidth: "100%",
+                        }}
+                      ></div>
+                    )}
                   </td>
                   <td>{item.owner}</td>
                   <td>
                     <button
                       className="btn btn-success"
-                      disabled={item.withdrawed}
+                      disabled={!(!item.withdrawed && item.meter >= 1)}
                       onClick={() => {
                         handleWithdraw(item.id);
                       }}
